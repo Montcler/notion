@@ -11,7 +11,6 @@
             --obsidian-black: #000000;
             --deep-gold: #B4933C;
             --carbon-gray: #1A1A1A;
-
             --champagne-beige: #E5D6B7;
             --white-ice: #F4F4F4;
         }
@@ -78,4 +77,61 @@
     <div class="widget">
         <div class="greet" id="greet"></div>
         <div class="date" id="date"></div>
-        <div class="clock"
+        <div class="clock">
+            <div class="time" id="hour"></div>
+            <div class="colon">:</div>
+            <div class="time" id="min"></div>
+            <div class="colon">:</div>
+            <div class="time" id="sec"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function displayGreetings(today){
+        let hrs = today.getHours();
+        let greet = hrs < 12 ? 'Good Morning' :
+                    hrs <= 17 ? 'Good Afternoon' :
+                    'Good Evening';
+        document.getElementById('greet').innerHTML = greet;
+    }
+
+    function displayDate(today) {
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        document.getElementById('date').innerHTML = `${days[today.getDay()]}, ${months[today.getMonth()]} ${today.getDate()} ${today.getFullYear()}`;
+    }
+
+    function displayClock(today) {
+        let hour = padZeros(twelveHour(today.getHours()));
+        let min = padZeros(today.getMinutes());
+        let sec = padZeros(today.getSeconds());
+        let period = today.getHours() >= 12 ? "pm" : "am";
+        document.getElementById('hour').innerHTML = hour;
+        document.getElementById('min').innerHTML = min;
+        document.getElementById('sec').innerHTML = sec + " " + period;
+    }
+
+    function twelveHour(hour) {
+        if (hour > 12) return hour - 12;
+        if (hour === 0) return 12;
+        return hour;
+    }
+
+    function padZeros(num) {
+        return num < 10 ? '0' + num : num;
+    }
+
+    function displayWidget() {
+        let today = new Date();
+        displayGreetings(today);
+        displayDate(today);
+        displayClock(today);
+        setTimeout(displayWidget, 500);
+    }
+
+    displayWidget();
+</script>
+
+</body>
+</html>
