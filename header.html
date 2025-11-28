@@ -18,120 +18,104 @@
         body {
             color: var(--white-ice);
             font-family: Arial, sans-serif;
-            font-variant-caps: all-petite-caps;
             margin: 0;
-            padding: 20px;
-        }
-
-        .widget {
-            padding: 20px;
-            color: var(--white-ice);
+            padding: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            max-width: 95%;
-            margin: auto;
-            border: 3px solid var(--deep-gold);
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .widget {
+            padding: 35px;
+            width: 100%;
+            max-width: 900px;
+            border: 2px solid var(--deep-gold);
+            border-radius: 18px;
+            background: linear-gradient(145deg, #0a0a0a, #141414);
+            box-shadow:
+                0 0 20px rgba(180, 147, 60, 0.2),
+                inset 0 0 10px rgba(255, 255, 255, 0.05);
+            text-align: center;
         }
 
         .greet {
-            font-size: 3em;
+            font-size: 3.4em;
+            font-weight: 600;
             color: var(--deep-gold);
-            margin-bottom: 10px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
         }
 
         .date {
             font-family: monospace;
-            font-size: 2em;
+            font-size: 1.5em;
             color: var(--champagne-beige);
-            margin-bottom: 10px;
+            margin-bottom: 25px;
+            opacity: 0.9;
         }
 
         .clock {
             font-family: monospace;
-            font-size: 2em;
-            color: var(--white-ice);
+            font-size: 2.8em;
             display: flex;
-            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .time {
-            display: inline-block;
-            min-width: 20px;
+            min-width: 55px;
+            text-align: center;
         }
 
-        .colon {
-            font-size: 1em;
-            display: inline-block;
-            margin: 0 3px;
+        .period {
+            font-size: 0.5em;
+            margin-left: 6px;
+            opacity: 0.8;
+            color: var(--champagne-beige);
         }
-
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="widget">
-        <div class="greet" id="greet"></div>
-        <div class="date" id="date"></div>
-        <div class="clock">
-            <div class="time" id="hour"></div>
-            <div class="colon">:</div>
-            <div class="time" id="min"></div>
-            <div class="colon">:</div>
-            <div class="time" id="sec"></div>
-        </div>
+<div class="widget">
+    <div class="greet" id="greet"></div>
+    <div class="date" id="date"></div>
+
+    <div class="clock">
+        <span class="time" id="hour"></span>
+        <span>:</span>
+        <span class="time" id="min"></span>
+        <span>:</span>
+        <span class="time" id="sec"></span>
+        <span class="period" id="period"></span>
     </div>
 </div>
 
 <script>
     function displayGreetings(today){
         let hrs = today.getHours();
-        let greet = hrs < 12 ? 'Good Morning' :
-                    hrs <= 17 ? 'Good Afternoon' :
-                    'Good Evening';
+        let greet =
+            hrs < 12 ? 'Good Morning' :
+            hrs <= 17 ? 'Good Afternoon' :
+            'Good Evening';
         document.getElementById('greet').innerHTML = greet;
     }
 
     function displayDate(today) {
-        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
         const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        document.getElementById('date').innerHTML = `${days[today.getDay()]}, ${months[today.getMonth()]} ${today.getDate()} ${today.getFullYear()}`;
+        document.getElementById('date').innerHTML =
+            `${days[today.getDay()]}, ${months[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
     }
 
     function displayClock(today) {
         let hour = padZeros(twelveHour(today.getHours()));
         let min = padZeros(today.getMinutes());
         let sec = padZeros(today.getSeconds());
-        let period = today.getHours() >= 12 ? "pm" : "am";
+        let period = today.getHours() >= 12 ? "PM" : "AM";
+
         document.getElementById('hour').innerHTML = hour;
         document.getElementById('min').innerHTML = min;
-        document.getElementById('sec').innerHTML = sec + " " + period;
-    }
-
-    function twelveHour(hour) {
-        if (hour > 12) return hour - 12;
-        if (hour === 0) return 12;
-        return hour;
-    }
-
-    function padZeros(num) {
-        return num < 10 ? '0' + num : num;
-    }
-
-    function displayWidget() {
-        let today = new Date();
-        displayGreetings(today);
-        displayDate(today);
-        displayClock(today);
-        setTimeout(displayWidget, 500);
-    }
-
-    displayWidget();
-</script>
-
-</body>
-</html>
+        document.getElementById('sec').innerHTML = sec;
+        document.getElementById('period').innerHTML
