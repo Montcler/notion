@@ -16,6 +16,7 @@
         }
 
         body {
+            background: var(--obsidian-black);
             color: var(--white-ice);
             font-family: Arial, sans-serif;
             margin: 0;
@@ -118,4 +119,27 @@
         document.getElementById('hour').innerHTML = hour;
         document.getElementById('min').innerHTML = min;
         document.getElementById('sec').innerHTML = sec;
-        document.getElementById('period').innerHTML
+        document.getElementById('period').innerHTML = period;
+    }
+
+    function twelveHour(hour) {
+        return hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+    }
+
+    function padZeros(num) {
+        return num < 10 ? '0' + num : num;
+    }
+
+    function displayWidget() {
+        let today = new Date();
+        displayGreetings(today);
+        displayDate(today);
+        displayClock(today);
+        setTimeout(displayWidget, 500);
+    }
+
+    displayWidget();
+</script>
+
+</body>
+</html>
